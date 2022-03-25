@@ -6,14 +6,14 @@
 
     @if (session()->has('success'))
         <div class="alert alert-success alert-dismissible fade show" role="
-                                                                                                alert">
+                                                                                                            alert">
             {{ session('success') }}
             <a type="button" class="close" data-dismiss="alert" aria-label="Close"><span
                     aria-hidden="true">&times;</span></a>
         </div>
     @elseif(session()->has('delete'))
         <div class="alert alert-danger alert-dismissible fade show" role="
-                                                                                                alert">
+                                                                                                            alert">
             {{ session('delete') }}
             <a type="button" class="close" data-dismiss="alert" aria-label="Close"><span
                     aria-hidden="true">&times;</span></a>
@@ -33,7 +33,7 @@
                 <table class="table " id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>No</th>
+                            <th>#</th>
                             <th>NIP</th>
                             <th>Nama Pegawai</th>
                             <th>Bidang</th>

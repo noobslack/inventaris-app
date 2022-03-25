@@ -15,7 +15,7 @@ class CreateVerifikasisTable extends Migration
     {
         Schema::create('verifikasis', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_inventaris')->constrained('inventaris');
+            $table->foreignId('id_inventaris')->constrained('inventaris')->cascadeOnDelete();
             $table->string('alasan')->nullable();
             $table->enum('status',['Menunggu','Terverifikasi', 'Ditolak'])->default('Menunggu');
             $table->timestamps();

@@ -16,6 +16,7 @@ class RuanganController extends Controller
     public function index()
     {
         //
+        
         $b = [
             'dataRuangan' => Ruangan::with('bidang')->withCount('inventaris')->get(),
             'bidang' => Bidang::all()
@@ -60,7 +61,7 @@ class RuanganController extends Controller
 
         ]);
 
-        $validatedata['id'] = auth()->user()->id;
+       
 
         Ruangan::create($validatedata);
 

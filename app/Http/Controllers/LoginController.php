@@ -18,12 +18,16 @@ class LoginController extends Controller
         $credentials = $request->validate([
             'nip' => 'required',
             'password' => 'required'
+            
+
         ]);
+        $credentials['status'] = 'aktif';
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             return redirect()->intended('/dashboard');
         }
+
 
         return back()->with('loginError', 'Login Gagal');
     }

@@ -99,26 +99,31 @@
                     <span>Data Barang</span></a>
             </li>
 
-            <li class="nav-item {{ Request::is('verification*') ? 'active' : '' }}">
-                <a class="nav-link" href="/verification">
-                    <i class="fas fa-warehouse"></i>
-                    <span>Verifikasi Data Barang</span></a>
-            </li>
+            @can('verif')
+                <li class="nav-item {{ Request::is('verification*') ? 'active' : '' }}">
+                    <a class="nav-link" href="/verification">
+                        <i class="fas fa-warehouse"></i>
+                        <span>Verifikasi Data Barang</span></a>
+                </li>
+            @endcan
 
-            <div class="sidebar-heading">Kelola Ruangan</div>
-            <li class="nav-item {{ Request::is('ruangan*') ? 'active' : '' }}">
-                <a class="nav-link" href="/ruangan">
-                    <i class="fas fa-warehouse"></i>
-                    <span>Data Ruangan</span></a>
-            </li>
+            @can('admin')
+                <div class="sidebar-heading">Kelola Ruangan</div>
+                <li class="nav-item {{ Request::is('ruangan*') ? 'active' : '' }}">
+                    <a class="nav-link" href="/ruangan">
+                        <i class="fas fa-warehouse"></i>
+                        <span>Data Ruangan</span></a>
+                </li>
+            @endcan
 
-            <div class="sidebar-heading">Kelola User</div>
-            <li class="nav-item {{ Request::is('user') ? 'active' : '' }}">
-                <a class="nav-link" href="/user">
-                    <i class="fas fa-user"></i>
-                    <span>Managemen User</span></a>
-            </li>
-
+            @can('admin')
+                <div class="sidebar-heading">Kelola User</div>
+                <li class="nav-item {{ Request::is('user') ? 'active' : '' }}">
+                    <a class="nav-link" href="/user">
+                        <i class="fas fa-user"></i>
+                        <span>Managemen User</span></a>
+                </li>
+            @endcan
             <!-- Nav Item - Tables -->
 
 

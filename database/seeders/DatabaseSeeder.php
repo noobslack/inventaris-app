@@ -47,7 +47,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         \App\Models\User::factory(5)->create();
-        \App\Models\inventaris::factory(5)->create();
+        // \App\Models\inventaris::factory(5)->create();
         // \App\Models\inventaris::factory(5)->create();
     }
 }

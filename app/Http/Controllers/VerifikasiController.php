@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 class VerifikasiController extends Controller
 {
     public function verification(){
+        $this->authorize('verif');
         $data = [
             'dataInventaris' => Verifikasi::with('inventaris')->get()
         ];
@@ -18,6 +19,7 @@ class VerifikasiController extends Controller
     }
 
     public function detail(inventaris $inventaris){
+        $this->authorize('verif');
         $data = [
             'dataInventaris' => $inventaris->load('verifikasi'),
             'ruangan' => Ruangan::all()
@@ -27,7 +29,7 @@ class VerifikasiController extends Controller
         return view('verifikasi.detail', $data);
     }
     public function confirm(inventaris $inventaris){
-        
+        $this->authorize('verif');
         $inventaris->verifikasi()->update([
             'status' => 'Terverifikasi'
         ]);
@@ -37,12 +39,20 @@ class VerifikasiController extends Controller
     
     }
 
-    public function decline(inventaris $inventaris){
-            
+    public function decline(inventaris $inventaris , Request $request){
+        $this->authorize('verif');
+        
+        if($inventaris->verifikasi->status === 'Ditolak'){
+            return redirect()->back()->with('error', "Tidak bisa merubah data");
+        }
+
         $inventaris->verifikasi()->update([
-            'status' => ''
+            'status' => 'Ditolak',
+            'alasan' => $request->alasan
         ]);
 
-        return redirect()->route('verifikasi.index');
+        
+
+        return redirect()->route('verifikasi.index')->with('success', "Data Berhasil Disetujui");
     }
 }

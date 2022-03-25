@@ -4,14 +4,14 @@
     <!-- Page Heading -->
     @if (session()->has('success'))
         <div class="alert alert-success alert-dismissible fade show" role="
-                                                                    alert">
+                                                                        alert">
             {{ session('success') }}
             <a type="button" class="close" data-dismiss="alert" aria-label="Close"><span
                     aria-hidden="true">&times;</span></a>
         </div>
     @elseif(session()->has('delete'))
         <div class="alert alert-danger alert-dismissible fade show" role="
-                                                                    alert">
+                                                                        alert">
             {{ session('delete') }}
             <a type="button" class="close" data-dismiss="alert" aria-label="Close"><span
                     aria-hidden="true">&times;</span></a>
@@ -81,7 +81,7 @@
                     <thead>
                         <tr></tr>
                         <tr>
-                            <th>No</th>
+                            <th>#</th>
                             <th>Ruangan</th>
                             <th>Jumlah Barang</th>
                             <th class="text-center">Aksi</th>
