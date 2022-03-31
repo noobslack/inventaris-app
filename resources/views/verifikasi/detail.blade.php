@@ -6,6 +6,23 @@
 
 @section('container')
     {{-- Form Head --}}
+    @if (session()->has('alreadyVerificated'))
+        <div class="alert alert-danger alert-dismissible fade show"
+            role="
+                                                                                                                                                            alert">
+            {{ session('alreadyVerificated') }}
+            <a type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></a>
+        </div>
+    @elseif(session()->has('alreadyDeclined'))
+        <div class="alert alert-danger alert-dismissible fade show"
+            role="
+                                                                                                                                                            alert">
+            {{ session('alreadyDeclined') }}
+            <a type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></a>
+        </div>
+    @endif
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Detail Data Inventaris</h6>
@@ -230,12 +247,43 @@
             <div class="justify-content-md-end d-flex">
                 <a href="" class="btn btn-danger  mt-5" data-toggle="modal" data-target="#exampleModal"><i
                         class="fas fa-times mr-2"></i></i>Tolak</a>
-                <a href="/verification/confirm/{{ $dataInventaris->id }}" class="btn btn-info mx-3  mt-5"
-                    type="button"><i class="fas fa-check mr-2"></i>
-                    Setujui
-                </a>
+
+                <a href="" class="btn btn-info  mt-5 mx-3" data-toggle="modal" data-target="#exampleModalVerif"><i
+                        class="fas fa-check mr-2"></i></i>Setujui</a>
 
 
+
+            </div>
+
+            <div class="modal fade" id="exampleModalVerif" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Setujui Data</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{ route('verifikasi.decline', $dataInventaris->id) }}" name="alasan"
+                                method="POST">
+                                @csrf
+                                <div class="form-group">
+                                    <span>Apakah anda ingin menyetujui data berikut?</span>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                    <a href="/verification/confirm/{{ $dataInventaris->id }}" class="btn btn-info mx-3"
+                                        type="button"><i class="fas fa-check mr-2"></i>
+                                        Setujui
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
             </div>
 
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"

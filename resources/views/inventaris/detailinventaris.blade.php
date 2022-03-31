@@ -226,20 +226,14 @@
 
             </div>
 
-            <div class="justify-content-md-start">
-                <a href="/inventaris">
-                    <button class="btn btn-primary col-md-3  mt-5" type="button">Kembali</button>
-                </a>
-
-
-            </div>
+            @if ($inventaris->verifikasi->alasan != null)
+                <div class="justify-content-md-between mt-5">
+                    <span class="text-danger font-weight-bold">*Alasan ditolak:
+                        {{ $inventaris->verifikasi->alasan }}</span>
+                </div>
+            @endif
 
         </div>
-
-
-
-
-
 
 
     </div>

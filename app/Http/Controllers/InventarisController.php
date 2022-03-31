@@ -3,13 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Exports\InventarisExport;
+use App\Imports\InventarisImport;
 use App\Models\inventaris;
 use App\Models\Ruangan;
 use App\Models\Verifikasi;
+use Illuminate\Contracts\Validation\Rule;
 // use Illuminate\Contracts\Support\ValidatedData;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Unique;
 use Maatwebsite\Excel\Excel;
 use Maatwebsite\Excel\Facades\Excel as FacadesExcel;
+
+
+
 
 
 
@@ -24,15 +30,20 @@ class InventarisController extends Controller
      */
     public function index()
     {
-        $data = [
-            'dataInventaris' => inventaris::with(['ruangan','verifikasi'])->get()
-        ];
+        if (auth()->user()->role != 'admin') {
+            $data = [
+                'dataInventaris' => inventaris::with(['ruangan', 'verifikasi'])->where('id_ruangan', auth()->user()->bidang->ruangan[0]->id)->get()
+            ];
+        } else {
+            $data = [
+                'dataInventaris' => inventaris::with(['ruangan', 'verifikasi'])->get()
+            ];
+        }
+
         // dd($data['dataInventaris']);
         // $dataInventaris = inventaris::all();
-        
-        return view('inventaris.tables', $data); 
 
-
+        return view('inventaris.tables', $data);
     }
 
     /**
@@ -68,7 +79,7 @@ class InventarisController extends Controller
         // dd($request->all());
         $validatedata = $request->validate([
             'id_ruangan' => 'required',
-            'kode_barang' => 'required',
+            'kode_barang' => 'required|unique:inventaris,kode_barang',
             'nama_barang' => 'required',
             'merk_type' => 'required',
             'bahan' => 'required',
@@ -79,7 +90,7 @@ class InventarisController extends Controller
             'kondisi' => 'required',
             'jumlah' => 'required',
             'harga' => 'required',
-            
+
         ]);
 
 
@@ -111,7 +122,6 @@ class InventarisController extends Controller
         ];
 
         return view('inventaris.detailinventaris', $data);
-
     }
 
     /**
@@ -156,11 +166,11 @@ class InventarisController extends Controller
             'kondisi' => 'required',
             'jumlah' => 'required',
             'harga' => 'required',
-            
+
         ]);
 
 
-        $validatedata['keterangan']= $request->keterangan;
+        $validatedata['keterangan'] = $request->keterangan;
         $inventaris->update($validatedata);
 
 
@@ -187,9 +197,17 @@ class InventarisController extends Controller
     }
 
     public function export()
-	{
-		return FacadesExcel::download(new InventarisExport, 'inventaris.xlsx');
-        
-	}
+    {
+        return FacadesExcel::download(new InventarisExport, 'inventaris.xlsx');
+    }
+    public function import()
+    {
+        try {
 
+            FacadesExcel::import(new InventarisImport, request()->file('file'));
+            return redirect()->back()->with('sukses', 'Import barang Berhasil');
+        } catch (\Throwable $th) {
+            return redirect()->back()->withErrors('Gagal, Pastikan Import Data Anda Sesuai');
+        }
+    }
 }

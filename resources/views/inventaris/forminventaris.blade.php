@@ -209,9 +209,11 @@
                 <div class="mb-3 row">
                     <label for="formGroupExampleInput"
                         class="form-label font-weight-bold col-sm-2 col-form-label">Keterangan</label>
+
                     <div class="col-sm-10">
                         <input name="keterangan" type="text" class="form-control" id="formGroupExampleInput2"
                             value="{{ old('keterangan') }}">
+                        <small>* Bisa diiisi spesifikasi barang dan lain lain</small>
                     </div>
 
                 </div>

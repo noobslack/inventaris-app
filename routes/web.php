@@ -54,13 +54,14 @@ Route::post('/logout', [LoginController::class, 'logout']);
 Route::get('/generate-pdf', [CetakPdf::class, 'generatePdf'])->middleware('auth');
 Route::get('/generate-pdf/{id}', [CetakPdf::class, 'generatePdfOne'])->middleware('auth');
 Route::get('/generate-barcode', [InventarisController::class, 'index'])->name('generate.barcode')->middleware('auth');
-Route::get('inventaris/export', [InventarisController::class, 'export'])->middleware('auth'); 
+Route::get('inventaris/export', [InventarisController::class, 'export'])->middleware('auth');
+Route::post('inventaris/import', [InventarisController::class, 'import'])->middleware('auth');
 Route::get('/verification', [VerifikasiController::class, 'verification'])->middleware('admin')->name('verifikasi.index');
 Route::get('/verification/confirm/{inventaris}', [VerifikasiController::class, 'confirm'])->middleware('admin');
 Route::post('/verification/decline/{inventaris}', [VerifikasiController::class, 'decline'])->middleware('admin')->name('verifikasi.decline');
 Route::get('/verification/{inventaris}', [VerifikasiController::class, 'detail'])->middleware('admin')->name('verifikasi.detail');
+Route::get('dashboard/inventaris', [DashboardController::class, 'data'])->middleware('auth');
 Route::resource('dashboard', DashboardController::class)->middleware('auth');
 Route::resource('inventaris', InventarisController::class)->middleware('auth')->parameters(['inventaris' => 'inventaris']);
 Route::resource('ruangan', RuanganController::class)->middleware('admin');
 Route::resource('user', UserController::class)->middleware('admin');
-

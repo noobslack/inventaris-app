@@ -2,26 +2,18 @@
 
 @section('container')
     @if (session()->has('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <div class="alert alert-success alert-dismissible fade show"
+            role="
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                alert">
             {{ session('success') }}
             <a type="button" class="close" data-dismiss="alert" aria-label="Close"><span
                     aria-hidden="true">&times;</span></a>
         </div>
     @elseif(session()->has('delete'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <div class="alert alert-danger alert-dismissible fade show"
+            role="
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                alert">
             {{ session('delete') }}
-            <a type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                    aria-hidden="true">&times;</span></a>
-        </div>
-    @elseif(session()->has('sukses'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('sukses') }}
-            <a type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                    aria-hidden="true">&times;</span></a>
-        </div>
-    @elseif($errors->any())
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ $errors->first() }}
             <a type="button" class="close" data-dismiss="alert" aria-label="Close"><span
                     aria-hidden="true">&times;</span></a>
         </div>
@@ -37,13 +29,11 @@
         <div class="card-header py-3 justify-content-between d-flex">
             <h6 class="m-0 font-weight-bold text-primary d-inline-block align-self-center">Data Inventaris Barang </h6>
             <div>
-                <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm mx-3" data-toggle="modal"
-                    data-placement="top" data-target="#importModal" title="Import Excel file" style="height: 100%"><i
-                        class="fas fa-file-excel fa-sm-w-20 text-white-50 mr-2 "></i>Import</button>
-                <a href="{{ route('inventaris.create') }}"
-                    class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm mx-3" data-toggle="tooltip"
-                    data-placement="top" title="Tambah Data" style="height: 100%"><i
-                        class="fas fa-plus fa-sm-w-20 text-white-50 mr-2 "></i>Tambah Data</a>
+                <a href="/inventaris/export" class="btn btn-success" data-toggle="tooltip" data-placement="top"
+                    title="Export Excel" style="height: 100%" target="blank"><i class="fas fa-file-excel"></i></a>
+                <a href="/generate-pdf" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm mx-3"
+                    data-toggle="tooltip" data-placement="top" title="Cetak" style="height: 100%"><i
+                        class="fas fa-print fa-sm-w-20 text-white-50 mr-2 "></i>Cetak Barcode</a>
 
             </div>
 
@@ -51,6 +41,7 @@
 
         <div class="card-body">
             <div class="table-responsive">
+
                 <table class="table " id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
@@ -59,8 +50,9 @@
                             <th>Nama/Jenis Barang</th>
                             <th>Tahun Perolehan</th>
                             <th>Kondisi</th>
-                            <th>Status</th>
+                            <th>Diperbarui Pada</th>
                             <th>Aksi</th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -71,29 +63,18 @@
                                 <td>{{ $item->nama_barang }}</td>
                                 <td>{{ $item->tahun_perolehan }}</td>
                                 <td>{{ $item->kondisi }}</td>
-                                <td>{{ $item->verifikasi !== null ? $item->verifikasi->status : '-' }}</td>
+                                <td>{{ $item->updated_at }}</td>
                                 <td>
 
                                     <a href="{{ route('inventaris.show', $item->id) }}"
-                                        class="btn btn-success btn-circle btn-sm" data-toggle="tooltip" data-placement="top"
+                                        class="btn btn-info btn-circle btn-sm" data-toggle="tooltip" data-placement="top"
                                         title="Detail Data">
                                         <i class="fas fa-info"></i>
                                     </a>
-                                    @if ($item->verifikasi->status != 'Terverifikasi')
-                                        <a href="{{ route('inventaris.edit', $item->id) }}"
-                                            class="btn btn-info btn-circle btn-sm" data-toggle="tooltip"
-                                            data-placement="top" title="Edit Data">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                    @endif
-
-
-                                    <a class="btn btnHapus btn-danger btn-circle btn-sm border-0 data-toggle=" tooltip"
-                                        data-placement="top" title="Hapus Data" " href=" #" data-toggle="modal"
-                                        data-target="#hapusModal" data-id="{{ $item->id }}">
-                                        <i class="fas fa-trash"></i>
+                                    <a href="/generate-pdf/{{ $item->id }}" class="btn btn-success btn-circle btn-sm"
+                                        data-toggle="tooltip" data-placement="top" title="Cetak Barcode">
+                                        <i class="fas fa-print"></i>
                                     </a>
-
                                     {{-- <form action="{{route('inventaris.destroy',$item->id)}}" class="d-inline" method="post" id="{{ $item->id }}" >
                                 @method('DELETE')
                                 @csrf
@@ -136,49 +117,7 @@
 
                             </tr>
                         @endforeach
-                        {{-- Import Modal --}}
-                        <div class="modal fade" id="importModal" tabindex="-1" role="dialog"
-                            aria-labelledby="importModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="importModalLabel">Import Data Excel
-                                        </h5>
-                                        <button class="close" type="button" data-dismiss="modal"
-                                            aria-label="Close">
-                                            <span aria-hidden="true">×</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <small>* Nama Ruangan dan Kondisi bersifat Case Sensitive. <br> Sebagai
-                                                    contoh untuk nama Ruangan harus diawali dengan huruf kapital, ex =
-                                                    Informatika. Dan untuk input data Kondisi
-                                                    harus
-                                                    sesuai dengan apa yang ada diform, yaitu : 'Baik', 'Rusak Ringan', dan
-                                                    'Rusak
-                                                    Berat' . </small>
-                                                <br>
-                                                <a href="template/file.xlsx"
-                                                    class="btn btn-sm btn-primary my-2">Template</a>
-                                            </div>
-                                            <div class="col-lg-12">
-                                                <form action="/inventaris/import" method="POST"
-                                                    enctype="multipart/form-data">
-                                                    @csrf
-                                                    <input type="file" name="file" id="file" class="form-control">
-                                                    <div class="d-flex justify-content-end"><button
-                                                            class="btn btn-sm btn-danger mt-3">Import</button>
-                                                    </div>
 
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </tbody>
                 </table>
             </div>

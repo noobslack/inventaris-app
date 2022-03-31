@@ -6,6 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <style>
+        .px-5 {
+            padding-left: 5px;
+            padding-right: 5px;
+
+        }
+
+    </style>
 </head>
 
 <body>
@@ -15,12 +23,12 @@
                 @foreach ($inventaris as $key => $data)
                     <table class="center" border="1" cellpadding="0" cellspacing="0">
                         <tr>
-                            <th>Nama Barang</th>
-                            <td>{{ $data->nama_barang }}</td>
+                            <th class="px-5">Nama Barang</th>
+                            <td class="px-5">{{ $data->nama_barang }}</td>
                         </tr>
                         <tr>
-                            <th>Kode Barang</th>
-                            <td>{!! DNS1D::getBarcodeHTML($data->kode_barang, 'C39') !!}</td>
+                            <th class="px-5">Kode Barang</th>
+                            <td class="px-5">{!! DNS1D::getBarcodeHTML($data->kode_barang, 'C39') !!}</td>
                         </tr>
                     </table>
                     <br>

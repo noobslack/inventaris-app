@@ -18,7 +18,7 @@ class LoginController extends Controller
         $credentials = $request->validate([
             'nip' => 'required',
             'password' => 'required'
-            
+
 
         ]);
         $credentials['status'] = 'aktif';

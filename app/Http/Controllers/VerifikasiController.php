@@ -10,7 +10,8 @@ use Illuminate\Http\Request;
 
 class VerifikasiController extends Controller
 {
-    public function verification(){
+    public function verification()
+    {
         $this->authorize('verif');
         $data = [
             'dataInventaris' => Verifikasi::with('inventaris')->get()
@@ -18,7 +19,8 @@ class VerifikasiController extends Controller
         return view('verifikasi.index', $data);
     }
 
-    public function detail(inventaris $inventaris){
+    public function detail(inventaris $inventaris)
+    {
         $this->authorize('verif');
         $data = [
             'dataInventaris' => $inventaris->load('verifikasi'),
@@ -28,22 +30,27 @@ class VerifikasiController extends Controller
 
         return view('verifikasi.detail', $data);
     }
-    public function confirm(inventaris $inventaris){
+    public function confirm(inventaris $inventaris)
+    {
         $this->authorize('verif');
+        if ($inventaris->verifikasi->status === 'Terverifikasi') {
+            return redirect()->route('verifikasi.detail', $inventaris->id)->with('alreadyVerificated', "Data Sudah Terverifikasi!");
+        }
+
         $inventaris->verifikasi()->update([
-            'status' => 'Terverifikasi'
+            'status' => 'Terverifikasi',
+            'alasan' => null
         ]);
 
-        return redirect()->route('verifikasi.index');
-
-    
+        return redirect()->route('verifikasi.index')->with('success', "Data berhasil disetujui");
     }
 
-    public function decline(inventaris $inventaris , Request $request){
+    public function decline(inventaris $inventaris, Request $request)
+    {
         $this->authorize('verif');
-        
-        if($inventaris->verifikasi->status === 'Ditolak'){
-            return redirect()->back()->with('error', "Tidak bisa merubah data");
+
+        if ($inventaris->verifikasi->status === 'Ditolak') {
+            return redirect()->route('verifikasi.detail', $inventaris->id)->with('alreadyDeclined', "Data sudah ditolak!");
         }
 
         $inventaris->verifikasi()->update([
@@ -51,8 +58,8 @@ class VerifikasiController extends Controller
             'alasan' => $request->alasan
         ]);
 
-        
 
-        return redirect()->route('verifikasi.index')->with('success', "Data Berhasil Disetujui");
+
+        return redirect()->route('verifikasi.index')->with('error', "Data berhasil ditolak");
     }
 }

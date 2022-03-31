@@ -1,45 +1,33 @@
 @extends('layout.main')
 
+
+<!-- Page Heading -->
+
+
 @section('container')
     @if (session()->has('success'))
         <div class="alert alert-success alert-dismissible fade show"
             role="
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            alert">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            alert">
             {{ session('success') }}
             <a type="button" class="close" data-dismiss="alert" aria-label="Close"><span
                     aria-hidden="true">&times;</span></a>
         </div>
-    @elseif(session()->has('delete'))
+    @elseif(session()->has('error'))
         <div class="alert alert-danger alert-dismissible fade show"
             role="
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            alert">
-            {{ session('delete') }}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            alert">
+            {{ session('error') }}
             <a type="button" class="close" data-dismiss="alert" aria-label="Close"><span
                     aria-hidden="true">&times;</span></a>
         </div>
     @endif
-    <!-- Page Heading -->
-
-
-
 
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3 justify-content-between d-flex">
             <h6 class="m-0 font-weight-bold text-primary d-inline-block align-self-center">Data Inventaris Barang </h6>
-            <div>
-                <a href="/inventaris/export" class="btn btn-success" data-toggle="tooltip" data-placement="top"
-                    title="Export Excel" style="height: 100%" target="blank"><i class="fas fa-file-excel"></i></a>
-                <a href="/generate-pdf" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm mx-3"
-                    data-toggle="tooltip" data-placement="top" title="Cetak" style="height: 100%"><i
-                        class="fas fa-print fa-sm-w-20 text-white-50 mr-2 "></i>Cetak Barcode</a>
-                <a href="{{ route('inventaris.create') }}"
-                    class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm mx-3" data-toggle="tooltip"
-                    data-placement="top" title="Tambah Data" style="height: 100%"><i
-                        class="fas fa-plus fa-sm-w-20 text-white-50 mr-2 "></i>Tambah Data</a>
-            </div>
-
         </div>
 
         <div class="card-body">
@@ -75,22 +63,10 @@
                                         title="Detail Data">
                                         <i class="fas fa-info"></i>
                                     </a>
-                                    <a href="{{ route('inventaris.edit', $item->id) }}"
-                                        class="btn btn-info btn-circle btn-sm" data-toggle="tooltip" data-placement="top"
-                                        title="Edit Data">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <a href="/generate-pdf/{{ $item->id }}" class="btn btn-success btn-circle btn-sm"
-                                        data-toggle="tooltip" data-placement="top" title="Cetak Barcode">
-                                        <i class="fas fa-print"></i>
-                                    </a>
-                                    <a class="btn btnHapus btn-danger btn-circle btn-sm border-0 data-toggle=" tooltip"
-                                        data-placement="top" title="Hapus Data" " href=" #" data-toggle="modal"
-                                        data-target="#hapusModal" data-id="{{ $item->id }}">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
 
-                                <td></td>
+
+
+                                </td>
 
                                 {{-- <form action="{{route('inventaris.destroy',$item->id)}}" class="d-inline" method="post" id="{{ $item->id }}" >
                                 @method('DELETE')

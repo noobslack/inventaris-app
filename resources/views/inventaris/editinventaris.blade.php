@@ -156,17 +156,22 @@
                 </div>
 
                 <div class="mb-3 row">
-                    <label for="formGroupExampleInput8"
+                    <label for="formGroupExampleInput2"
                         class="form-label font-weight-bold col-sm-2 col-form-label">Kondisi</label>
                     <div class="col-sm-10">
-                        <input name="kondisi" type="text" class="form-control @error('kondisi') is-invalid @enderror"
-                            id="formGroupExampleInput" required value="{{ old('kondisi', $inventaris->kondisi) }}">
-                        @error('kondisi')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-
+                        <select class="custom-select" name="role" required>
+                            <option value="">---- Pilih Kondisi ----</option>
+                            <option {{ old('role', $inventaris->kondisi) === 'Baik' ? 'selected' : '' }} value="Baik">
+                                Baik
+                            </option>
+                            <option {{ old('role', $inventaris->kondisi) === 'Rusak Ringan' ? 'selected' : '' }}
+                                value="Rusak Ringan">
+                                Rusak Ringan
+                            </option>
+                            <option {{ old('role', $inventaris->kondisi) === 'Rusak Berat' ? 'selected' : '' }}
+                                value="Rusak Berat">
+                                Rusak Berat</option>
+                        </select>
                     </div>
                 </div>
 
